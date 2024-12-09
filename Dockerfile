@@ -21,7 +21,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 COPY sources.list /etc/apt/sources.list
 RUN dpkg --add-architecture i386 \
  && apt-get update -y \
- && apt-get install -y --no-install-recommends ca-certificates locales steamcmd wget unzip \
+ && apt-get install -y --no-install-recommends ca-certificates locales steamcmd wget unzip libicu-dev \
  && rm -rf /var/lib/apt/lists/*
 
 # Add unicode support
@@ -43,6 +43,9 @@ RUN mkdir -p $HOME/.steam \
  && ln -s $HOME/.local/share/Steam/steamcmd/linux64 $HOME/.steam/sdk64 \
  && ln -s $HOME/.steam/sdk32/steamclient.so $HOME/.steam/sdk32/steamservice.so \
  && ln -s $HOME/.steam/sdk64/steamclient.so $HOME/.steam/sdk64/steamservice.so
+
+RUN wget https://mms.alliedmods.net/mmsdrop/2.0/mmsource-2.0.0-git1315-linux.tar.gz -O /tmp/metamod.tar.gz
+RUN wget https://github.com/roflmuffin/CounterStrikeSharp/releases/download/v291/counterstrikesharp-with-runtime-build-291-linux-6349c11.zip -O /tmp/counterstrikesharp.zip
 
 RUN chown -R ${USER}:${USER} $HOME
 USER ${USER}
