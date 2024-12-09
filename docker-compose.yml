@@ -1,0 +1,21 @@
+services:
+  cs2_server:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: cs2_server
+    user: "steam"
+    env_file:
+      - .env
+    volumes:
+      - cs2-volume:/home/steam/cs2_server
+      - ./:/home/steam/setup_files
+    ports:
+      - "27015:27015/tcp"
+      - "27015:27015/udp"
+      - "27020:27020/tcp"
+      - "27020:27020/udp"
+    entrypoint: /home/steam/setup_files/entrypoint.sh
+
+volumes:
+  cs2-volume:
