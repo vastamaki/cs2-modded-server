@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Download/Update CS2
-/home/${USER}/steamcmd/steamcmd.sh \
+steamcmd \
     +api_logging 1 1 \
     +@sSteamCmdForcePlatformType linux \
     +@sSteamCmdForcePlatformBitness $BITS \
@@ -10,37 +10,87 @@
     +app_update 730 \
     +quit
 
-# Download/Update Metamod
-cd /home/steam/cs2_server/
-wget https://mms.alliedmods.net/mmsdrop/2.0/mmsource-2.0.0-git1315-linux.tar.gz -O mmsource.tar.gz
-tar -xzf mmsource.tar.gz -C /home/steam/cs2_server/steamapps/common/Counter-Strike\ Global\ Offensive/game/csgo/ && rm mmsource.tar.gz
-PATTERN="Game_LowViolence[[:space:]]*csgo_lv // Perfect World content override"
-LINE_TO_ADD="\t\t\tGame\tcsgo/addons/metamod"
-REGEX_TO_CHECK="^[[:space:]]*Game[[:space:]]*csgo/addons/metamod"
+CS2_DIR="$HOME/cs2_server/game/csgo"
+ADDONS_DIR="$CS2_DIR/addons"
+METAMOD_DIR="$ADDONS_DIR/metamod"
+MAPS_DIR="$CS2_DIR/maps"
+CFG_DIR="$CS2_DIR/cfg"
+CS_SHARP_DIR="$ADDONS_DIR/counterstrikesharp"
+CS_SHARP_PLUGINS_DIR="$CS_SHARP_DIR/plugins"
 
-if grep -qE "$REGEX_TO_CHECK" "$FILE"; then
-    echo "$FILE already patched for Metamod."
-else
-    awk -v pattern="$PATTERN" -v lineToAdd="$LINE_TO_ADD" '{
-        print $0;
-        if ($0 ~ pattern) {
-            print lineToAdd;
-        }
-    }' "$FILE" > tmp_file && mv tmp_file "$FILE"
-    echo "$FILE successfully patched for Metamod."
+
+# Create addons directory. Recreate if it already exists
+if [[ -d "$ADDONS_DIR" ]] ; then
+	echo "Addons directory already exists. Removing..."
+	rm -rf $ADDONS_DIR
 fi
 
-# Download/Update Sourcemod
-wget https://github.com/roflmuffin/CounterStrikeSharp/releases/download/v291/counterstrikesharp-build-291-linux-6349c11.zip -O counterstrikesharp.zip
-unzip counterstrikesharp.zip -d /home/steam/cs2_server/steamapps/common/Counter-Strike\ Global\ Offensive/game/csgo/ && rm counterstrikesharp.zip
+echo "Creating addons directory"
+mkdir -p $ADDONS_DIR
 
-/home/steam/cs2_server/steamapps/common/Counter-Strike\ Global\ Offensive/game/bin/linuxsteamrt64/cs2 \
+# Extract metamod if it doesn't exist
+# https://docs.cssharp.dev/docs/guides/getting-started.html#installing-metamod
+if [[ ! -d $METAMOD_DIR ]] ; then
+	echo "Extracting metamod to $ADDONS_DIR"
+	tar xfz /tmp/metamod.tar.gz -C $CS2_DIR
+else
+	echo "Metamod already installed"
+fi
+
+
+# Update gameinfo.gi to include Metamod
+if [[ -f "$CS2_DIR/gameinfo.gi" ]] ; then
+	echo "Found gameinfo.gi"
+
+	if [[ -z $(grep "metamod" $CS2_DIR/gameinfo.gi) ]] ; then
+		echo "Adding metamod to gameinfo.gi"
+		sed -i -e "/Game_LowViolence/a\\
+			Game	csgo\/addons\/metamod" $CS2_DIR/gameinfo.gi
+	else
+		echo "gameinfo.gi already updated"
+	fi
+else
+	echo "WARNING: gameinfo.gi not found"
+fi
+
+
+# Download CounterStrikeSharp if it doesn't exist
+# https://docs.cssharp.dev/docs/guides/getting-started.html#installing-counterstrikesharp
+if [[ ! -d $CS_SHARP_DIR ]] ; then
+	echo "Extracting CounterStrikeSharp to $ADDONS_DIR"
+
+	# -q tells unzip to stfu
+	# -o tells unzip to overwrite files without prompting
+	unzip -qo /tmp/counterstrikesharp.zip -d $CS2_DIR
+else
+	echo "CounterStrikeSharp already installed"
+fi
+
+# Copy pre-baked CounterStrikeSharp plugins to plugins directory
+# https://docs.cssharp.dev/docs/guides/hello-world-plugin.html#installing-your-plugin
+for dir in /tmp/plugins/*/; do
+	plugin=$(basename $dir)
+	
+	if [[ ! -d "$CS_SHARP_PLUGINS_DIR/$plugin" ]] ; then
+		echo "Copying plugin to server: $plugin"
+		cp -r $dir $CS_SHARP_PLUGINS_DIR
+	else
+		echo "$plugin plugin already exists. Not copying."
+	fi
+done
+
+# Copy configs to cfg directory
+cp /tmp/config/*.cfg $CFG_DIR
+
+/home/steam/cs2_server/game/bin/linuxsteamrt64/cs2 \
     -dedicated \
     -console \
     -usercon \
     -autoupdate \
     -tickrate 128 \
     +map de_dust2 \
+    -maxplayers 24 \
     +game_type 0 \
     +game_mode 0 \
     +mapgroup mg_active \
+    +sv_lan 0 
