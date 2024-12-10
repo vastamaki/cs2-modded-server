@@ -8,8 +8,8 @@ ENV USER steam
 ENV HOME /home/${USER}
 
 # Set working directory
-WORKDIR $HOME
 RUN useradd -m "${USER}"
+WORKDIR $HOME
 
 # Insert Steam prompt answers
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -44,8 +44,15 @@ RUN mkdir -p $HOME/.steam \
  && ln -s $HOME/.steam/sdk32/steamclient.so $HOME/.steam/sdk32/steamservice.so \
  && ln -s $HOME/.steam/sdk64/steamclient.so $HOME/.steam/sdk64/steamservice.so
 
+
+# Download CSSharp and Metamod
 RUN wget https://mms.alliedmods.net/mmsdrop/2.0/mmsource-2.0.0-git1315-linux.tar.gz -O /tmp/metamod.tar.gz
 RUN wget https://github.com/roflmuffin/CounterStrikeSharp/releases/download/v291/counterstrikesharp-with-runtime-build-291-linux-6349c11.zip -O /tmp/counterstrikesharp.zip
+
+
+# Download plugins
+RUN wget https://github.com/nickj609/GameModeManager/releases/download/v1.0.50/GameModeManager_v1.0.50.zip -O /tmp/plugins/
+
 
 RUN chown -R ${USER}:${USER} $HOME
 USER ${USER}
