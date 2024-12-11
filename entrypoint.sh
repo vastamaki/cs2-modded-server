@@ -92,7 +92,7 @@ done
 
 echo "Copying plugin configs to the server."
 for file in /home/steam/setup_files/configs/; do
-	cp -r file $CS_SHARP_CONFIGS_DIR
+	cp -r $file $CS_SHARP_CONFIGS_DIR
 done
 
 # Install plugins
