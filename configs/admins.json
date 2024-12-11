@@ -1,0 +1,8 @@
+{
+    "ExampleSteamUser": {
+      "identity": "yourSteamID64",
+      "groups": [
+        "#css/admin"
+      ]
+    }
+}

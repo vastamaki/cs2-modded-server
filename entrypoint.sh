@@ -17,6 +17,7 @@ MAPS_DIR="$CS2_DIR/maps"
 CFG_DIR="$CS2_DIR/cfg"
 CS_SHARP_DIR="$ADDONS_DIR/counterstrikesharp"
 CS_SHARP_PLUGINS_DIR="$CS_SHARP_DIR/plugins"
+CS_SHARP_CONFIGS_DIR="$CS_SHARP_DIR/configs"
 
 
 # Create addons directory. Recreate if it already exists
@@ -89,6 +90,11 @@ for zip in /tmp/plugins/*.zip; do
 	unzip $zip -d $CS2_DIR
 done
 
+echo "Copying plugin configs to the server."
+for file in /home/steam/setup_files/configs/; do
+	cp -r file $CS_SHARP_CONFIGS_DIR
+done
+
 # Install plugins
 cp /home/steam/setup_files/gamemodes_server.txt $CS2_DIR
 
@@ -98,9 +104,14 @@ cp /home/steam/setup_files/gamemodes_server.txt $CS2_DIR
     -usercon \
     -autoupdate \
     -tickrate 128 \
+    -maxplayers 64 \
+	-port $PORT \
+	-authkey $STEAM_WEB_API_KEY \
     +map de_dust2 \
-    -maxplayers 24 \
     +game_type 0 \
     +game_mode 0 \
     +mapgroup mg_active \
-    +sv_lan 0
+    +sv_lan $LAN_ONLY \
+	+sv_password $SERVER_PASSWORD \
+	+rcon_password $RCON_PASSWORD \
+	+sv_setsteamaccount $STEAM_LOGIN_TOKEN
