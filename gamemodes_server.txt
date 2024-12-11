@@ -30,10 +30,9 @@
 						"mg_awp"			"60"
 						"mg_aim"			"61"
 						"mg_prefire"		"62"
-						"mg_deathrun"		"63"
-						"mg_battleroyale"	"64"
-						"mg_casual-1.6"		"65"
-						"mg_45"				"66"
+						"mg_battleroyale"	"63"
+						"mg_casual-1.6"		"64"
+						"mg_45"				"65"
 					}
 				}
 
@@ -355,18 +354,6 @@
 				"workshop/3297489255/br_stacks"		""
 				"workshop/3267454508/br_flood"		""
 				"workshop/3186779271/minecraft"		""
-			}
-		}
-		"mg_deathrun"
-		{
-			"name"			"mg_deathrun"
-			"displayname"			"Deathrun"
-			"maps"
-			{
-				"workshop/3164611860/deathrun_playground"		""
-				"workshop/3311285877/deathrun_egypt"		""
-				"workshop/3188021118/deathrun_civilization"		""
-				"workshop/3083325292/deathrun_iceworld_cs2"		""
 			}
 		}
 		"mg_course"

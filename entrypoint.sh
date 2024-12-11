@@ -87,7 +87,7 @@ cp /tmp/prebaked_config/*.cfg $CFG_DIR
 # Copy normalCounterStrikeSharp plugins to the server.
 echo "Copying plugins to the server."
 for zip in /tmp/plugins/*.zip; do
-	unzip $zip -d $CS2_DIR
+	unzip -o $zip -d $CS2_DIR
 done
 
 echo "Copying plugin configs to the server."

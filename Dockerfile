@@ -52,6 +52,21 @@ RUN wget https://github.com/roflmuffin/CounterStrikeSharp/releases/download/v291
 
 # Download plugins
 RUN wget https://github.com/nickj609/GameModeManager/releases/download/v1.0.50/GameModeManager_v1.0.50.zip -P /tmp/plugins/
+RUN wget https://github.com/LordFetznschaedl/CS2Rcon/releases/download/1.2.0/CS2Rcon-1.2.0.zip -P /tmp/plugins/
+RUN wget https://github.com/kus/CS2_ExecAfter/releases/download/v1.0.0/CS2_ExecAfter-1.0.0.zip -P /tmp/plugins/
+RUN wget https://github.com/kus/CS2-Remove-Map-Weapons/releases/download/v1.0.1/CS2-Remove-Map-Weapons-1.0.1.zip -P /tmp/plugins/
+RUN wget https://github.com/KitsuneLab-Development/CS2_DamageInfo/releases/download/v2.3.4/K4ryuuDamageInfo.zip -P /tmp/plugins/
+RUN wget https://github.com/abnerfs/cs2-rockthevote/releases/download/v1.8.5/RockTheVote_v1.8.5.zip -P /tmp/plugins/
+RUN wget https://github.com/shobhit-pathak/MatchZy/releases/download/0.8.7/MatchZy-0.8.7.zip -P /tmp/plugins/
+RUN wget https://github.com/B3none/cs2-retakes/releases/download/20.0.16/cs2-retakes-20.0.16.zip -P /tmp/plugins/
+RUN wget https://github.com/B3none/cs2-retakes/releases/download/20.0.16/cs2-retakes-shared-20.0.16.zip -P /tmp/plugins/
+RUN wget https://github.com/B3none/cs2-instadefuse/releases/download/2.0.0/cs2-instadefuse-2.0.0.zip -P /tmp/plugins/
+RUN wget https://github.com/yonilerner/cs2-retakes-allocator/releases/download/v2.3.17/cs2-retakes-allocator-v2.3.17.zip -P /tmp/plugins/
+RUN wget https://github.com/zwolof/cs2-executes/releases/download/1.0.6/cs2-executes-1.0.6.zip -P /tmp/plugins/
+RUN wget https://github.com/NockyCZ/CS2-Deathmatch/releases/download/v1.2.2/Deathmatch.zip -P /tmp/plugins/
+RUN wget https://github.com/lengran/OpenPrefirePrac/releases/download/v0.1.41/OpenPrefirePrac-v0.1.41.zip -P /tmp/plugins/
+RUN wget https://github.com/KitsuneLab-Development/K4-Arenas/releases/download/v1.5.3/K4-Arenas.zip -P /tmp/plugins/
+
 
 # Download prebaked plugins
 RUN mkdir /tmp/prebaked_plugins
