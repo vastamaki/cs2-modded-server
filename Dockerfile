@@ -51,8 +51,11 @@ RUN wget https://github.com/roflmuffin/CounterStrikeSharp/releases/download/v291
 
 
 # Download plugins
-RUN wget https://github.com/nickj609/GameModeManager/releases/download/v1.0.50/GameModeManager_v1.0.50.zip -O /tmp/plugins/
+RUN wget https://github.com/nickj609/GameModeManager/releases/download/v1.0.50/GameModeManager_v1.0.50.zip -P /tmp/plugins/
 
+# Download prebaked plugins
+RUN mkdir /tmp/prebaked_plugins
+RUN mkdir /tmp/prebaked_config
 
 RUN chown -R ${USER}:${USER} $HOME
 USER ${USER}
