@@ -85,13 +85,12 @@ cp /tmp/prebaked_config/*.cfg $CFG_DIR
 
 # Copy normalCounterStrikeSharp plugins to the server.
 echo "Copying plugins to the server."
-for zip in /tmp/plugins/*.zip/; do
+for zip in /tmp/plugins/*.zip; do
 	unzip $zip -d $CS2_DIR
 done
 
 # Install plugins
 cp plugin_install_scripts/gamemodes_server.txt $CS2_DIR
-source ./plugin_install_scripts/GameModeManager.sh
 
 /home/steam/cs2_server/game/bin/linuxsteamrt64/cs2 \
     -dedicated \
@@ -105,4 +104,3 @@ source ./plugin_install_scripts/GameModeManager.sh
     +game_mode 0 \
     +mapgroup mg_active \
     +sv_lan 0
-
