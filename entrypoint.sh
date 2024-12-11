@@ -90,7 +90,7 @@ for zip in /tmp/plugins/*.zip; do
 done
 
 # Install plugins
-cp ./gamemodes_server.txt $CS2_DIR
+cp /home/steam/setup_files/gamemodes_server.txt $CS2_DIR
 
 /home/steam/cs2_server/game/bin/linuxsteamrt64/cs2 \
     -dedicated \
